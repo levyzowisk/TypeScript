@@ -1,0 +1,19 @@
+    // as (Type Assertion)
+    // is (Type Guard)
+
+    [Error [ValidationError]: "password" must be a string] {
+  _original: {
+    first_name: 'Levy',
+    last_name: 'Sousa',
+    email: 'levy@gmail.com',
+    password: 123456
+  },
+  details: [
+    {
+      message: '"password" must be a string',
+      path: [Array],
+      type: 'string.base',
+      context: [Object]
+    }
+  ]
+}
