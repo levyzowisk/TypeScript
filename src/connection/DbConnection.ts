@@ -10,7 +10,6 @@ class DbConnection {
         return new PrismaClient() ;
 
     }
-
  }
 
  export default DbConnection.getConnection();
