@@ -1,9 +1,9 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import DbConnection from '../connection/DbConnection';
 import User from '../interfaces/user.interface';
-import userSchema from '../validators/user.schema';
+import {userSchema} from '../validators/user.schema';
 import Joi from 'joi';
-import validate from '../middleware/validate.user.middleware';
+import {validate, loginValidate} from '../middleware/validate.user.middleware';
 import UserController from '../controllers/user.controller';
 
 const route: Router = express.Router();
@@ -48,7 +48,9 @@ const route: Router = express.Router();
         
 // }) 
 
-route.post('/user', validate ,UserController.create);
+route.post('/user', validate ,UserController.createLogin);
+
+route.post('/userlogin', loginValidate, UserController.loginUser)
 
 route.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.log(err);

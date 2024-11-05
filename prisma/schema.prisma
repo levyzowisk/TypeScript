@@ -18,7 +18,7 @@ model User {
   id Int @id @default(autoincrement())
   first_name String @db.Char(50)
   last_name String @db.Char(50)
-  email String @db.Char(60)
+  email String @unique @db.Char(60)
   password String 
   address_id Int? @unique
   address Address? @relation(fields: [address_id], references: [id])
