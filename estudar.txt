@@ -17,3 +17,7 @@
     }
   ]
 }
+
+
+
+PASSO 1: Gerar o token e mandar pro front
