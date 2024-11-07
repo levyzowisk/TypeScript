@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const validate_user_middleware_1 = __importDefault(require("../middleware/validate.user.middleware"));
+const validate_user_middleware_1 = require("../middleware/validate.user.middleware");
 const user_controller_1 = __importDefault(require("../controllers/user.controller"));
 const route = express_1.default.Router();
 // O express converte por padrão, a url ou parametro dela para string!
@@ -32,7 +32,8 @@ const route = express_1.default.Router();
 //     // }
 //     // create(data)
 // }) 
-route.post('/user', validate_user_middleware_1.default, user_controller_1.default.create);
+route.post('/user', validate_user_middleware_1.validate, user_controller_1.default.createLogin);
+route.post('/userlogin', validate_user_middleware_1.loginValidate, user_controller_1.default.loginUser);
 route.use((err, req, res, next) => {
     console.log(err);
     res.status(400).json(err);

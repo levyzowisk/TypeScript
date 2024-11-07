@@ -2,8 +2,11 @@ import DbConnection from "../connection/DbConnection";
 import dotenv from 'dotenv'
 import jwt from "jsonwebtoken"
 
-dotenv.config()
-export const loginUser = (password: string  , email: string): string => {
-
-    jwt.sign()
+dotenv.config();
+const secret: any = process.env.SECRET_JWT;
+export const loginUser = (email: string): string => {
+    return jwt.sign({
+        email: email,
+        role: 'admin'
+    }, secret,{expiresIn: '1h' } )
 } 

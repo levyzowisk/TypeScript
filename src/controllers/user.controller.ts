@@ -1,7 +1,7 @@
 import DbConnection from "../connection/DbConnection";
 import express, { Router, Request, Response, NextFunction } from 'express';
 import { crypto,comparePassword } from "../service/cryptoService";
-
+import { loginUser } from "../service/authService";
 import User from "../interfaces/user.interface";
 import { error } from "console";
 class UserController {
@@ -51,12 +51,13 @@ class UserController {
             
             if(userData) {
                 const authUser = comparePassword(data.password, userData.password)
-                return authUser;
+                // return authUser;
             } else if (!userData) {
                 throw error('Usuário não cadastrado')
             }
 
-            
+            const token = loginUser (data.email);
+            res.status(201).json({token})
             
         }
 
