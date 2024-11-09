@@ -2,6 +2,7 @@ import {userSchema,loginUser} from "../validators/user.schema";
 import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 import User from "../interfaces/user.interface";
+import { authUserVerify } from "../service/authService";
 
 const validate = async ( req: Request<{},{}, User>, res: Response, next: NextFunction) => {
     const data: User = req.body;
@@ -18,9 +19,9 @@ const validate = async ( req: Request<{},{}, User>, res: Response, next: NextFun
 const loginValidate = async (req:Request, res: Response, next:NextFunction) => {
     const data = req.body
     try{
-        console.log(data);
         
-        await loginUser.validateAsync(data.email);
+        console.log(data);
+        await loginUser.validateAsync(data);
         next()
     }
     catch(error) {
@@ -28,4 +29,18 @@ const loginValidate = async (req:Request, res: Response, next:NextFunction) => {
     }
 
 }
-export  {validate, loginValidate};
+
+const authUser =  async (req: Request, res: Response, next: NextFunction) => {
+    const authorization = req.headers.authorization
+    try {
+       console.log('aqui');
+       
+        const validateToken = authUserVerify(authorization);
+        console.log(validateToken);
+                
+        res.status(200).json()
+    } catch (error) {
+        next(error)
+    }
+}
+export  {validate, loginValidate, authUser};

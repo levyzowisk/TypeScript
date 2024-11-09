@@ -4,6 +4,7 @@ import { crypto,comparePassword } from "../service/cryptoService";
 import { loginUser } from "../service/authService";
 import User from "../interfaces/user.interface";
 import { error } from "console";
+import { object } from "joi";
 class UserController {
 
     async createLogin(req:Request<{}, {}, User>, res: Response, next: NextFunction) {
@@ -56,7 +57,7 @@ class UserController {
                 throw error('Usuário não cadastrado')
             }
 
-            const token = loginUser (data.email);
+            const token = loginUser(userData.email);
             res.status(201).json({token})
             
         }
@@ -66,6 +67,6 @@ class UserController {
         }
     }
     
-}
+}  
 
 export default new UserController;

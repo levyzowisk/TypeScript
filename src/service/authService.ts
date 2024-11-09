@@ -4,9 +4,17 @@ import jwt from "jsonwebtoken"
 
 dotenv.config();
 const secret: any = process.env.SECRET_JWT;
-export const loginUser = (email: string): string => {
+const loginUser = (email: string): string => {
     return jwt.sign({
         email: email,
         role: 'admin'
     }, secret,{expiresIn: '1h' } )
 } 
+
+
+
+const authUserVerify = (token:any ): any => {
+    return jwt.verify(token,secret)
+}
+
+export {loginUser,authUserVerify}
