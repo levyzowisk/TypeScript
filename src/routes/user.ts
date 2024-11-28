@@ -1,4 +1,4 @@
-import express, { Router, Request, Response, NextFunction } from 'express';
+import express, { Router, Request, Response, NextFunction, response } from 'express';
 import DbConnection from '../connection/DbConnection';
 import User from '../interfaces/user.interface';
 import {userSchema} from '../validators/user.schema';
@@ -49,7 +49,11 @@ const route: Router = express.Router();
 // }) 
 
 route.post('/user', validate ,UserController.createLogin);
-
+route.get('test', (request: Request, Response: Response) => {
+    console.log("oi");
+    
+    response.status(200).json('Eae manow')
+})
 route.post('/userlogin', loginValidate, UserController.loginUser);
 
 route.get('/users', authUser )
