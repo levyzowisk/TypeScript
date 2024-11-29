@@ -3,9 +3,12 @@ import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 import User from "../interfaces/user.interface";
 import { authUserVerify } from "../service/authService";
+import { log } from "console";
 
 const validate = async ( req: Request<{},{}, User>, res: Response, next: NextFunction) => {
     const data: User = req.body;
+    console.log(req.body);
+    
     try {
         await userSchema.validateAsync(data);
         next()

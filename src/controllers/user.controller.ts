@@ -8,7 +8,9 @@ import { object } from "joi";
 class UserController {
 
     async createLogin(req:Request<{}, {}, User>, res: Response, next: NextFunction) {
-        try {   
+        try {
+            console.log(req.body + 'aqui');
+            
             const data: User = req.body
             console.log(data);
             
@@ -21,14 +23,14 @@ class UserController {
                     last_name: data.last_name,
                     email: data.email,
                     password: passwordHash,
-                    address: {
-                        create: {
-                            street: data.street,
-                            city: data.city,
-                            state: data.state,
-                            country: data.country
-                        }
-                    }
+                    // address: {
+                    //     create: {
+                    //         street: data.street,
+                    //         city: data.city,
+                    //         state: data.state,
+                    //         country: data.country
+                    //     }
+                    // }
                 }
             })
             res.status(201).json({message: 'Olá mundo!'})

@@ -33,7 +33,12 @@ const route = express_1.default.Router();
 //     // create(data)
 // }) 
 route.post('/user', validate_user_middleware_1.validate, user_controller_1.default.createLogin);
+route.get('/test', (request, response) => {
+    // console.log("oi");
+    response.status(200).json('Eae manow');
+});
 route.post('/userlogin', validate_user_middleware_1.loginValidate, user_controller_1.default.loginUser);
+route.get('/users', validate_user_middleware_1.authUser);
 route.use((err, req, res, next) => {
     console.log(err);
     res.status(400).json(err);

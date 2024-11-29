@@ -10,6 +10,7 @@ const console_1 = require("console");
 class UserController {
     async createLogin(req, res, next) {
         try {
+            console.log(req.body + 'aqui');
             const data = req.body;
             console.log(data);
             const passwordHash = (0, cryptoService_1.crypto)(data.password, 10);
@@ -20,14 +21,14 @@ class UserController {
                     last_name: data.last_name,
                     email: data.email,
                     password: passwordHash,
-                    address: {
-                        create: {
-                            street: data.street,
-                            city: data.city,
-                            state: data.state,
-                            country: data.country
-                        }
-                    }
+                    // address: {
+                    //     create: {
+                    //         street: data.street,
+                    //         city: data.city,
+                    //         state: data.state,
+                    //         country: data.country
+                    //     }
+                    // }
                 }
             });
             res.status(201).json({ message: 'Olá mundo!' });
@@ -55,7 +56,7 @@ class UserController {
             else if (!userData) {
                 throw (0, console_1.error)('Usuário não cadastrado');
             }
-            const token = (0, authService_1.loginUser)(data.email);
+            const token = (0, authService_1.loginUser)(userData.email);
             res.status(201).json({ token });
         }
         catch (error) {

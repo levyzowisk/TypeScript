@@ -10,14 +10,15 @@ const userSchema = joi_1.default.object({
     last_name: joi_1.default.string().min(1).required(),
     email: joi_1.default.string().email().required(),
     password: joi_1.default.string().required(),
-    address_id: joi_1.default.number().allow(null),
-    street: joi_1.default.string().max(60).required(),
-    city: joi_1.default.string().max(70).required(),
-    state: joi_1.default.string().max(40).required(),
-    country: joi_1.default.string().max(30).required()
+    // address_id: Joi.number().allow(null),
+    // street: Joi.string().max(60).required(),
+    // city: Joi.string().max(70).required(),
+    // state: Joi.string().max(40).required(),
+    // country: Joi.string().max(30).required()
 });
 exports.userSchema = userSchema;
 const loginUser = joi_1.default.object({
-    email: joi_1.default.string().email().required()
+    email: joi_1.default.string().email().required(),
+    password: joi_1.default.any()
 });
 exports.loginUser = loginUser;
