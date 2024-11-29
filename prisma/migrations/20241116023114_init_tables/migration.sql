@@ -22,6 +22,9 @@ CREATE TABLE "Address" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_address_id_key" ON "User"("address_id");
 
 -- AddForeignKey

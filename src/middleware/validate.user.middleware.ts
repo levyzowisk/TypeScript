@@ -33,8 +33,6 @@ const loginValidate = async (req:Request, res: Response, next:NextFunction) => {
 const authUser =  async (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.headers.authorization
     try {
-       console.log('aqui');
-       
         const validateToken = authUserVerify(authorization);
         console.log(validateToken);
                 
@@ -43,4 +41,5 @@ const authUser =  async (req: Request, res: Response, next: NextFunction) => {
         next(error)
     }
 }
+
 export  {validate, loginValidate, authUser};

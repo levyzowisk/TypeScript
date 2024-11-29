@@ -66,6 +66,7 @@ class UserController {
             next(error)
         }
     }
+
     
 }  
 

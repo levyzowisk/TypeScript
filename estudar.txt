@@ -19,5 +19,4 @@
 }
 
 
-
-PASSO 1: Gerar o token e mandar pro front
+Proximo Passo: Criar um front onde tenha cadastro, login e depois um rota com autenticação
