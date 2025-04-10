@@ -1,4 +1,4 @@
-interface User {
+interface user {
     first_name: string,
     last_name: string,
     email: string,
@@ -10,5 +10,10 @@ interface User {
     country: string
 }
 
-export default User;
+type userRegister = Pick<user, "first_name" | "last_name" | "email" | "password">
+
+export {
+    user,
+    userRegister
+};
 

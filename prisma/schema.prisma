@@ -3,30 +3,52 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-
 model User {
-  id Int @id @default(autoincrement())
-  first_name String @db.Char(50)
-  last_name String @db.Char(50)
-  email String @unique @db.Char(60)
-  password String 
-  address_id Int? @unique
-  address Address? @relation(fields: [address_id], references: [id])
-  
+  id       Int      @id @default(autoincrement())
+  first_name String
+  last_name String
+  password String
+  email    String   @unique
+  status   Boolean  @default(true)
+  email_verified Boolean @default(false)
+  created_at DateTime @default(now())
+  update_at DateTime  @default(now())
+  address  Address? @relation(fields: [addressId], references: [id])
+  addressId Int?  @unique
 }
 
 model Address {
-  id Int @id @default(autoincrement())
-  street String @db.Char(60)
-  city String @db.Char(70)
-  state String @db.Char(40)
-  country  String @db.Char(30)
-  user User? @relation
-
+  id        Int     @id @default(autoincrement())
+  street    String
+  city      String
+  state     String
+  country   String
+  postalCode String
+  user      User?   @relation
 }
+
+// model User {
+//   id Int @id @default(autoincrement())
+//   first_name String @db.Char(50)
+//   last_name String @db.Char(50)
+//   email String @unique @db.Char(60)
+//   password String 
+//   address_id Int? @unique
+//   address Address? @relation(fields: [address_id], references: [id])
+  
+// }
+
+// model Address {
+//   id Int @id @default(autoincrement())
+//   street String @db.Char(60)
+//   city String @db.Char(70)
+//   state String @db.Char(40)
+//   country  String @db.Char(30)
+//   user User? @relation
+
+// }
 
