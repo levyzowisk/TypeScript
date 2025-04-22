@@ -3,8 +3,7 @@ import { userRegister } from "../interfaces/user.interface";
 import UserRepository from "../repository/User.repository";
 import { crypto } from "../utils/cryptoService";
 import { sendMail } from "../utils/resendService";
-import { registerUser } from "../utils/authService";
-import { authUserVerify } from "../utils/authService";
+import { generateAccessToken, generateRefreshToken, verifyAccessToken, verifyRefreshToken } from "../utils/authService";
 import { TokenExpiredError } from "jsonwebtoken";
 
 export class UserService {
@@ -15,7 +14,7 @@ export class UserService {
             
             const data = await UserRepository.saveUser(user);
             
-            sendMail(user.email, user.first_name, registerUser(user.email), data.id);
+            sendMail(user.email, user.first_name, generateAccessToken(), data.id);
 
         } catch(error) {
             throw error;
@@ -24,14 +23,26 @@ export class UserService {
 
     static async verifyEmail(id: number | string, token: string) {
         try {
-            authUserVerify(token);
+            verifyAccessToken(token);
             if(!await UserRepository.findById(Number(id))) throw new NotFoundError('Usuário não cadastrado no sistema!');
 
            await UserRepository.verifiedEmail(Number(id));
-           return;
+           return generateRefreshToken();
             
         } catch(error) {
              if(error instanceof TokenExpiredError) throw new BadRequestError('Token Expirado');
+             throw error;
+        }
+    }
+
+    static async refreshToken (refreshToken: string) {
+        try {
+            // Tenho que usar a classe adequada para a resposta do erro.
+            if(!verifyRefreshToken(refreshToken)) throw new BadRequestError('Refresh Token expirado, faz o login novamente!');
+            return generateAccessToken();
+        } catch (error) {
+            if(error instanceof TokenExpiredError) throw new BadRequestError('Token Expirado');
+            throw error;
         }
     }
 }

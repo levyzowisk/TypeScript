@@ -1,21 +1,41 @@
-import dotenv from 'dotenv'
-import jwt from "jsonwebtoken"
+import dotenv from 'dotenv';
+import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
 
 dotenv.config();
 const secret: any = process.env.SECRET_JWT;
 
-const registerUser = (email: string): string => {
+const generateAccessToken = (): string => {
     
     return jwt.sign({
-        email: email,
         purpose: 'email_verification'
-    }, secret,{expiresIn: '5m' } )
+    }, secret,{
+        issuer: "Aplication/Api",
+        expiresIn: '15m',
+        subject: "Testando Api",
+        audience: 'user'
+    });
 } 
 
-const authUserVerify = (token:any ): any => {
-    // console.log(jwt.decode(token));
-
-    return jwt.verify(token,secret);
+const verifyAccessToken = (token: string ): JwtPayload | string => {
+    return jwt.verify(token, secret);
 }
 
-export {registerUser, authUserVerify}
+const generateRefreshToken = (): JwtPayload | string  => {
+
+    return jwt.sign({
+    }, 
+    secret,
+    {
+        issuer: 'Aplication/Api',
+        expiresIn: '7d',
+        subject: 'refresh_token',
+    }
+) 
+}
+
+const verifyRefreshToken = (token: string): JwtPayload | string => {
+    return jwt.verify(token, secret);
+}
+
+
+export {generateAccessToken, verifyAccessToken, generateRefreshToken, verifyRefreshToken}

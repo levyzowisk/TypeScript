@@ -8,5 +8,6 @@ const route: Router = express.Router();
 
 route.post('/user', UserMiddleware.validateData ,UserController.createLogin);
 route.get('/verify', UserController.verifyEmail);
+route.get('/refreshtoken', UserController.refreshToken)
 
 export default route;

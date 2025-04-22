@@ -17,6 +17,7 @@ export const sendMail = (email: string, name: string, token: string, id: number)
         html: `
             <h1> Olá, ${name}! </h1>
             <p> Clique no link abaixo para configurar seu e-mail: </p>
+            // Aqui na verdade terá uma rota da aplicação react que fará o manuseio disso.
             <a href="http://localhost:3000/api/verify?token=${token}&userId=${id}">Confirmar E-mail</a>
         `
     });

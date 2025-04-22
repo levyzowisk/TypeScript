@@ -19,7 +19,7 @@ class UserRepository extends AbstractRepositoy {
 
     findUnique(email: string) {
         try {
-            return this.getConnection().$executeRaw`SELECT EXISTS (SELECT 1 FROM user WHERE email = ${email})`;
+            return this.getConnection().$executeRaw`SELECT EXISTS (SELECT 1 FROM User WHERE email = ${email})`;
         } catch(error) {
             throw error;
         }
@@ -27,7 +27,7 @@ class UserRepository extends AbstractRepositoy {
 
     verifiedEmail(id: number) {
         try {
-            return this.getConnection().$executeRaw`UPDATE user SET email_verified = true WHERE id = ${id}`;
+            return this.getConnection().$executeRaw`UPDATE User SET email_verified = true WHERE id = ${id}`;
         } catch(error) {
             throw error;
         }
@@ -35,7 +35,7 @@ class UserRepository extends AbstractRepositoy {
 
     findById(id: number) {
         try {
-            return this.getConnection().$queryRaw`SELECT id FROM user WHERE id = ${id}`;
+            return this.getConnection().$queryRaw`SELECT id FROM User WHERE id = ${id}`;
         } catch(error) {
             throw error;
         }

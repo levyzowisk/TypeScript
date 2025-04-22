@@ -8,7 +8,7 @@ class UserController {
     async createLogin(req:Request<{}, {}, userRegister>, res: Response, next: NextFunction) {
         try {
             await UserService.registerUser(req.body);
-            res.status(201).json({message: 'Olá mundo!'});
+            res.status(201).json();
         } catch(error) {
             next(error);
         }
@@ -16,13 +16,23 @@ class UserController {
 
     async verifyEmail(req: Request<{}, {}, {}, {token: string, userId: number}>, res: Response, next: NextFunction) {
         try {
-            await UserService.verifyEmail(req.query.userId, req.query.token);
-            res.status(200).json()
+            const refreshToken = await UserService.verifyEmail(req.query.userId, req.query.token);
+            res.status(200).json(refreshToken);
         } catch(error) {
             next(error);
         }
     }
     
+    async refreshToken (req: Request, res: Response, next: NextFunction) {
+        try {
+            // Não é uma boa prática usar essas assersação de tipo que fiz aqui, pois pode ter caso que o refresh token, venha vazio, undefined.
+            const acessToken = await UserService.refreshToken((req.headers.authorization as string));
+            res.status(200).json(acessToken);
+        } catch(error) {
+            next(error);
+        }
+    }
+
     // async loginUser(req: Request, res: Response, next: NextFunction) {
     //     try {
     //         const data = req.body

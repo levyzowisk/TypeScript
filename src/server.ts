@@ -23,6 +23,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     } else {
         console.log('Erro interno no servidor');
         console.log(err);
+        res.status(500).json(err.message);
     }
 }) 
 
