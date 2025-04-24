@@ -54,3 +54,16 @@ export class BadRequestError extends ApiError {
         super(ErrorType.BAD_REQUEST, message);
     }
 }
+
+export class UnauthorizedError extends ApiError {
+    constructor(message = 'Unauthorized') {
+        super(ErrorType.UNAUTHORIZED, message);
+    }
+}
+
+export class TokenExpiredError extends ApiError {
+    constructor(message = "Token is expired!") {
+        super(ErrorType.TOKEN_EXPIRED, message);
+    }
+
+}

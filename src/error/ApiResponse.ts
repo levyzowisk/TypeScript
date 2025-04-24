@@ -45,14 +45,14 @@ abstract class ApiResponse {
         // @ts-ignore
         delete clone.status;
         for(const i in clone) if (typeof clone[i] === 'undefined') delete clone[i];
-        return clone
+        return clone;
     }
 
 }
 
 export class AuthFailureResponse extends ApiResponse {
     constructor(message = 'Authentication Failure') {
-        super(StatusCode.FAILURE, ResponseStatus.NOT_FOUND, message);
+        super(StatusCode.FAILURE, ResponseStatus.UNAUTHORIZED, message);
     }
 }
 
@@ -79,3 +79,16 @@ export class BadRequestResponse extends ApiResponse {
     }
 }
 
+export class AcessTokenErrorResponse extends ApiResponse {
+    private instruction = 'refresh_token';
+
+    constructor(message = 'Acess token invalid') {
+        super(StatusCode.INVALID_ACESS_TOKEN, ResponseStatus.UNAUTHORIZED, message);
+    }
+
+    send(res: Response, headers: {[key: string]: string} = {}): Response {
+        headers.instruction = this.instruction;
+        return super.prepare<AcessTokenErrorResponse>(res, this, headers);
+    }
+
+}
