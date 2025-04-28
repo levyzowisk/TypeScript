@@ -1,9 +1,9 @@
 import { userRegister } from "../interfaces/user.interface";
 import { AbstractRepositoy } from "./Abstract.repository";
-
+import { rawNumber, id } from "../types/UserTypes";
 class UserRepository extends AbstractRepositoy {
 
-    saveUser(user: userRegister) {
+    saveUser(user: userRegister): id  {
         try {
             // Fazer querys no sql puro. E verificar os tipos de dados.
             return this.getConnection().user.create({
@@ -17,7 +17,7 @@ class UserRepository extends AbstractRepositoy {
         }
     }
 
-    findUnique(email: string) {
+    findUnique(email: string): rawNumber {
         try {
             return this.getConnection().$executeRaw`SELECT EXISTS (SELECT 1 FROM User WHERE email = ${email})`;
         } catch(error) {
@@ -25,15 +25,15 @@ class UserRepository extends AbstractRepositoy {
         }
     }
 
-    verifiedEmail(id: number) {
+    verifiedEmail(id: number): void {
         try {
-            return this.getConnection().$executeRaw`UPDATE User SET email_verified = true WHERE id = ${id}`;
+            this.getConnection().$executeRaw`UPDATE User SET email_verified = true WHERE id = ${id}`;
         } catch(error) {
             throw error;
         }
     }
 
-    findById(id: number) {
+    findById(id: number): id {
         try {
             return this.getConnection().$queryRaw`SELECT id FROM User WHERE id = ${id}`;
         } catch(error) {

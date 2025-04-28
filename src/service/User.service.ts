@@ -13,7 +13,6 @@ export class UserService {
             user.password = await crypto(user.password);
             
             const data = await UserRepository.saveUser(user);
-            
             sendMail(user.email, user.first_name, generateAccessToken(), data.id);
 
         } catch(error) {
@@ -26,7 +25,7 @@ export class UserService {
             verifyAccessToken(token);
             if(!await UserRepository.findById(Number(id))) throw new NotFoundError('Usuário não cadastrado no sistema!');
 
-           await UserRepository.verifiedEmail(Number(id));
+           UserRepository.verifiedEmail(Number(id))
            return generateRefreshToken();
             
         } catch(error) {
