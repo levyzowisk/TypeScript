@@ -37,8 +37,7 @@ export abstract class ApiError extends Error {
             default: {
                 let message = err.message;
                 return new InternalErrorResponse(message).send(res)
-            }
-                
+            }    
         }
     }
 }
@@ -65,5 +64,10 @@ export class TokenExpiredError extends ApiError {
     constructor(message = "Token is expired!") {
         super(ErrorType.TOKEN_EXPIRED, message);
     }
+}
 
+export class BadTokenError extends ApiError {
+    constructor(message = 'Token is not invalid' ) {
+        super(ErrorType.BAD_TOKEN, message);
+    }
 }

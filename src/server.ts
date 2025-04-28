@@ -17,8 +17,6 @@ const port = 3000;
 app.use("/api", route);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if(err instanceof ApiError) {
-        console.log('oi entrei');
-        
         ApiError.handle(err, res);
     } else {
         console.log('Erro interno no servidor');

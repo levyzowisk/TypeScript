@@ -1,6 +1,8 @@
 import { userRegister } from "../interfaces/user.interface";
 import { AbstractRepositoy } from "./Abstract.repository";
 import { rawNumber, id } from "../types/UserTypes";
+
+// Procurar usar o Prisma.GetPayLoad do prisma definir uma combinação de select ou junção mais complexas.
 class UserRepository extends AbstractRepositoy {
 
     saveUser(user: userRegister): id  {
@@ -28,6 +30,22 @@ class UserRepository extends AbstractRepositoy {
     verifiedEmail(id: number): void {
         try {
             this.getConnection().$executeRaw`UPDATE User SET email_verified = true WHERE id = ${id}`;
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    checkEmailIsVerify(email: string) {
+        try {
+            return this.getConnection().$executeRaw`SELECT EXISTS (SELECT 1 FROM User WHERE email = ${email} AND email_verified = true)`
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    checkEmailEquals(id: number, email: string) {
+        try {
+            return this.getConnection().$executeRaw`SELECT EXISTS(SELECT 1 FROM User WHERE email = ${email} AND id = ${id})`;
         } catch(error) {
             throw error;
         }

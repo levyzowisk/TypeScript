@@ -23,11 +23,20 @@ class UserController {
         }
     }
     
-    async refreshToken (req: Request, res: Response, next: NextFunction) {
+    async refreshToken(req: Request, res: Response, next: NextFunction) {
         try {
             // Não é uma boa prática usar essas assersação de tipo que fiz aqui, pois pode ter caso que o refresh token, venha vazio, undefined.
             const acessToken = await UserService.refreshToken((req.headers.authorization as string));
             res.status(200).json(acessToken);
+        } catch(error) {
+            next(error);
+        }
+    }
+
+    // Usar o picke ou omen pra omitir algumas propriedades
+    async tokenExpired(req: Request<{}, {}, {email: string}, {userId: number}>, res: Response, next: NextFunction) {
+        try {
+            await UserService.verifyEmailTokenExpired(req.query.userId, req.body.email);
         } catch(error) {
             next(error);
         }
